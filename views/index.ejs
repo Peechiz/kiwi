@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>I'm a kiwi?</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+  <nav class="navbar-inverse navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">Be a kiwi</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="/visited">Visited</a></li>
+          <li><a href="/applied">Applied</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="jumbotron">
+    <div class="container">
+
+<% if (title) { %>
+        <h3>Today you should check out:</h3>
+        <h1><%= title %></h1>
+        <ul>
+          <li>Link: <a target="new" href="<%= link %>"><%= link %></a></li>
+          <li>Saw: <%= visited %> </li>
+          <li>Applied: <%= applied %> </li>
+        </ul>
+        <div>
+          <label for="">Notes:</label>
+          <textarea id="notes" class="form-control" name="name" rows="8" cols="80"><%= notes %></textarea>
+        </div>
+        <br />
+        <button id="saw" class="btn btn-success">I saw</button>
+        <button id="applied" class="btn btn-success">I applied</button>
+        <button id="submitNotes" class="btn btn-success" data-title="<%= title %>">Submit Notes</button>
+    </div>
+  </div>
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="script.js"></script>
+<% } else { %>
+        <h1>No more unvisited companies!</h1>
+    </div>
+  </div>
+      <% } %>
+</body>
+</html>
