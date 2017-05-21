@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
   <title>I'm a kiwi?</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
+
 <body>
   <nav class="navbar-inverse navbar-static-top">
     <div class="container">
@@ -18,13 +20,28 @@
         <ul class="nav navbar-nav">
           <li class="active"><a href="/visited">Visited</a></li>
           <li><a href="/applied">Applied</a></li>
+          <li><a href="/starred">Starred</a></li>
         </ul>
       </div>
     </div>
   </nav>
   <div class="jumbotron">
     <div class="container">
-      <h1>Here's what you visited so far:</h1>
+      <h1>Here's what you <span class="text-success">visited</span> so far:</h1>
+      <p>
+        <%= viewed %> of
+          <%= total %>
+      </p>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="progress">
+            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<%= viewed %>" aria-valuemin="0" aria-valuemax="<%= total %>" style="min-width: 3.5em;">
+              <%= ((viewed/total)*100).toFixed(1) %>%
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
   <div class="container">
@@ -33,6 +50,7 @@
         <tr>
           <th>Company</th>
           <th>Link</th>
+          <th>Starred</th>
           <th>Notes</th>
           <th></th>
         </tr>
@@ -40,8 +58,17 @@
       <tbody>
         <% visited.forEach(function(co){ %>
           <tr>
-            <td> <%= co.title %> </td>
-            <td> <a href="<%= co.link %>"><%= co.link %></a></td>
+            <td>
+              <%= co.title %>
+            </td>
+            <td>
+              <a href="<%= co.link %>">
+                <%= co.link %>
+              </a>
+            </td>
+            <td>
+              <%- co.starred ? '<span class="glyphicon glyphicon-ok"></span>' : '' %>
+            </td>
             <td>
               <p>
                 <%= co.notes %>
@@ -51,7 +78,7 @@
               <button data-title="<%= co.title %>" class="btn btn-danger btn-sm">remove</button>
             </td>
           </tr>
-        <% }) %>
+          <% }) %>
       </tbody>
     </table>
   </div>
@@ -59,4 +86,5 @@
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="unvisit.js"></script>
 </body>
+
 </html>
