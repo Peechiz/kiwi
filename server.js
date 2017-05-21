@@ -2,8 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const fs = require('fs');
 
-// let file = 'nzaccredited.json'
-let file = 'test.json'
+let file = 'nzaccredited.json'
+// let file = 'test.json'
 
 let app = express();
 
@@ -102,9 +102,11 @@ app.get('/visited', (req,res) => {
     if (err) return res.send(err);
 
     let source = JSON.parse(data);
+    let total = source.length;
     source = source.filter(co => co.visited);
+    let viewed = source.length;
 
-    res.render('visited', { visited: source })
+    res.render('visited', { visited: source, viewed, total })
   })
 })
 
@@ -116,6 +118,54 @@ app.post('/unvisit', (req,res) => {
     source = source.map(job => {
       if (job.title === req.body.title) {
         job.visited = false;
+      }
+      return job
+    })
+    let str = JSON.stringify(source, null, 2);
+    fs.writeFile(file, str, (err) => {
+      if (err) return console.log(err);
+      res.sendStatus(200)
+    })
+  })
+})
+
+app.post('/star', (req,res) => {
+  fs.readFile(file, (err,data) => {
+    if (err) return res.send(err);
+
+    let source = JSON.parse(data);
+    source = source.map(job => {
+      if (job.title === req.body.title) {
+        job.starred = true;
+      }
+      return job
+    })
+    let str = JSON.stringify(source, null, 2);
+    fs.writeFile(file, str, (err) => {
+      if (err) return console.log(err);
+      res.sendStatus(200)
+    })
+  })
+})
+
+app.get('/starred', (req,res)=>{
+  fs.readFile(file, (err,data) => {
+    if (err) return res.send(err);
+
+    let source = JSON.parse(data);
+    source = source.filter(job => job.starred);
+    res.render('starred', { starred: source })
+  })
+})
+
+app.post('/unstar', (req,res) => {
+  fs.readFile(file, (err,data) => {
+    if (err) return res.send(err);
+
+    let source = JSON.parse(data);
+    source = source.map(job => {
+      if (job.title === req.body.title) {
+        job.starred = false;
       }
       return job
     })
@@ -143,7 +193,6 @@ app.get('/edit/:title', (req,res) => {
 
     res.render('edit', company)
   })
-
 })
 
 app.use(express.static('public'));
