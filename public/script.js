@@ -23,3 +23,10 @@ saw.addEventListener('click', function(){
     window.location.reload();
   })
 })
+
+let star = document.querySelector('#star');
+star.addEventListener('click', function(){
+  $.post('/star', { title: submitNotes.dataset.title }, function(res){
+    console.log(res);
+  })
+})
