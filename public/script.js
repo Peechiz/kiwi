@@ -1,24 +1,25 @@
-console.log('hello worldz');
 
 let submitNotes = document.querySelector('#submitNotes')
 submitNotes.addEventListener('click', function(e){
   let notes = document.querySelector('#notes');
-  $.post('/notes', { title: submitNotes.dataset.title, notes: notes.value }, function(res){
+  postJSON('/notes', { title: submitNotes.dataset.title, notes: notes.value })
+  .then(function(res){
     console.log(res);
   })
 })
 
 let applied = document.querySelector('#applied');
 applied.addEventListener('click', function(){
-  $.post('/applied', { title: submitNotes.dataset.title }, function(res){
+  postJSON('/applied', { title: submitNotes.dataset.title })
+  .then(function(res){
     console.log(res);
-
   })
 })
 
 let saw = document.querySelector('#saw');
 saw.addEventListener('click', function(){
-  $.post('/saw', { title: submitNotes.dataset.title }, function(res){
+  postJSON('/saw', { title: submitNotes.dataset.title })
+  .then(function(res){
     console.log(res);
     window.location.reload();
   })
@@ -26,7 +27,30 @@ saw.addEventListener('click', function(){
 
 let star = document.querySelector('#star');
 star.addEventListener('click', function(){
-  $.post('/star', { title: submitNotes.dataset.title }, function(res){
+  postJSON('/star', { title: submitNotes.dataset.title })
+  .then(function(res){
     console.log(res);
   })
 })
+
+function postJSON(url, json) {
+  return new Promise(function(resolve, reject){
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('POST', url, true);
+    xhr.onreadystatechange = handler;
+    xhr.responseType = 'json';
+    xhr.setRequestHeader('Content-type', 'application/json');
+    xhr.send(json);
+
+    function handler() {
+      if (http.readyState == 4) {
+        if (this.status === 200) {
+          resolve(this.response);
+        } else {
+          reject(new Error('postJSON: `' + url + '` failed with status: [' + this.status + ']'));
+        }
+      }
+    };
+  });
+}
