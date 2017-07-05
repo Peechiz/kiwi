@@ -37,8 +37,6 @@ function postJSON(url, json) {
   return new Promise(function(resolve, reject){
     var xhr = new XMLHttpRequest();
 
-    console.log(JSON.stringify(json));
-
     xhr.open('POST', url);
     xhr.onreadystatechange = handler;
     xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
