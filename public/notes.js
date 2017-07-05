@@ -20,7 +20,7 @@ function postJSON(url, json) {
     xhr.send(json);
 
     function handler() {
-      if (http.readyState == 4) {
+      if (xhr.readyState == 4) {
         if (this.status === 200) {
           resolve(this.response);
         } else {
