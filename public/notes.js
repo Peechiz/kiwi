@@ -17,7 +17,7 @@ function postJSON(url, json) {
     xhr.onreadystatechange = handler;
     xhr.responseType = 'json';
     xhr.setRequestHeader('Content-type', 'application/json');
-    xhr.send(json);
+    xhr.send(JSON.stringify(json));
 
     function handler() {
       if (xhr.readyState == 4) {

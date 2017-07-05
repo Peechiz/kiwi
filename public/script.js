@@ -27,8 +27,8 @@ saw.addEventListener('click', function(){
 
 let star = document.querySelector('#star');
 star.addEventListener('click', function(){
-  postJSON('/star', { title: submitNotes.dataset.title })
-  .then(function(res){
+
+  postJSON('/star', {title: submitNotes.dataset.title}).then(res => {
     console.log(res);
   })
 })
@@ -37,11 +37,12 @@ function postJSON(url, json) {
   return new Promise(function(resolve, reject){
     var xhr = new XMLHttpRequest();
 
-    xhr.open('POST', url, true);
+    console.log(JSON.stringify(json));
+
+    xhr.open('POST', url);
     xhr.onreadystatechange = handler;
-    xhr.responseType = 'json';
-    xhr.setRequestHeader('Content-type', 'application/json');
-    xhr.send(json);
+    xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+    xhr.send(JSON.stringify(json));
 
     function handler() {
       if (xhr.readyState == 4) {
